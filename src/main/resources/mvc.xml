@@ -21,6 +21,8 @@
 	<!-- 配置到管理页面 -->
 	<mvc:view-controller path="shopKeeper/toManagePage"
 		view-name="superMarket/manager" />
+	<mvc:view-controller path="manager/toManagePage"
+		view-name="manager/desktop" />
 
 	<!-- 配置自定义拦截器 -->
 	<mvc:interceptors>

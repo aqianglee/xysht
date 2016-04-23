@@ -1,29 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
+	pageEncoding="UTF-8"%>
+<%@ include file="../model/taglib.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>店铺</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/frame.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/pageItem.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/bootstrap.min.css" />
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.9.1.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/menu.js"></script>
+<%@ include file="../model/js.jsp"%>
 <script type="text/javascript">
-	$(function(){
-		$(".delete").click(function(){
+	$(function() {
+		$(".delete").click(function() {
 			var item = this;
 			var href = item.href;
-			if(confirm("确定删除吗？")){
+			if (confirm("确定删除吗？")) {
 				$.get(href, function(data) {
-					if(data.length > 0) {
-						if(confirm("所选项包含子项目，删除会删除所有子项目，确认删除吗？")) {
+					if (data.length > 0) {
+						if (confirm("所选项包含子项目，删除会删除所有子项目，确认删除吗？")) {
 							href = href + "&noAsk=true";
 							$.get(href, function(data) {
-								if(data.length > 0) {
+								if (data.length > 0) {
 									alert(data[0].key);
 								} else {
 									$(item).parent().parent().remove();
@@ -32,9 +27,9 @@
 						}
 					} else {
 						$(item).parent().parent().remove();
-					} 
-				}); 
-			} 
+					}
+				});
+			}
 			return false;
 		});
 	});
@@ -56,7 +51,8 @@
 				<a class="btn btn-primary" href="editSuperMarket">添加店铺</a>
 			</div>
 			<div style="padding: 10px;">
-				<c:if test="${requestScope.superMarkets != null && fn:length(requestScope.superMarkets) > 0 }">
+				<c:if
+					test="${requestScope.superMarkets != null && fn:length(requestScope.superMarkets) > 0 }">
 					<table class="table">
 						<tr>
 							<th>店铺名称</th>
@@ -66,15 +62,18 @@
 							<th>修改</th>
 							<th>删除</th>
 						</tr>
-					
+
 						<c:forEach items="${requestScope.superMarkets }" var="sm">
 							<tr>
-								<td>${sm.name } </td>
-								<td>${sm.address } </td>
-								<td>${sm.introduction } </td>
-								<td><a href="${pageContext.request.contextPath }/shopKeeper/listAllClassfies?sid=${sm.id }">管理分类</a></td>
-								<td><a href="${pageContext.request.contextPath }/shopKeeper/editSuperMarket?id=${sm.id }">修改</a></td>
-								<td><a class="delete" href="${pageContext.request.contextPath }/shopKeeper/deleteSuperMarket?id=${sm.id }">删除</a></td>
+								<td>${sm.name }</td>
+								<td>${sm.address }</td>
+								<td>${sm.introduction }</td>
+								<td><a
+									href="${pageContext.request.contextPath }/shopKeeper/listAllClassfies?sid=${sm.id }">管理分类</a></td>
+								<td><a
+									href="${pageContext.request.contextPath }/shopKeeper/editSuperMarket?id=${sm.id }">修改</a></td>
+								<td><a class="delete"
+									href="${pageContext.request.contextPath }/shopKeeper/deleteSuperMarket?id=${sm.id }">删除</a></td>
 							</tr>
 						</c:forEach>
 					</table>
