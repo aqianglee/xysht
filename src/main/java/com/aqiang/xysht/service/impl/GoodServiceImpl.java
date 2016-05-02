@@ -1,6 +1,7 @@
 package com.aqiang.xysht.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,9 +18,11 @@ import com.aqiang.xysht.entities.Classfy;
 import com.aqiang.xysht.entities.ErrorMessage;
 import com.aqiang.xysht.entities.Good;
 import com.aqiang.xysht.entities.Picture;
+import com.aqiang.xysht.entities.Supermarket;
 import com.aqiang.xysht.entities.Tag;
 import com.aqiang.xysht.service.GoodService;
 import com.aqiang.xysht.service.PictureService;
+import com.aqiang.xysht.service.SuperMarketService;
 import com.aqiang.xysht.service.TagService;
 import com.aqiang.xysht.service.ValidateService;
 
@@ -33,6 +36,8 @@ public class GoodServiceImpl extends BaseServiceImpl<Good> implements GoodServic
 	private ValidateService validateService;
 	@Autowired
 	private TagService tagService;
+	@Autowired
+	private SuperMarketService superMarketService;
 	private static final Logger LOGGER = LoggerFactory.getLogger(GoodServiceImpl.class);
 
 	@Resource(name = "goodDao")
@@ -115,6 +120,51 @@ public class GoodServiceImpl extends BaseServiceImpl<Good> implements GoodServic
 		for (Tag tag : tags) {
 			addTag(good, tag);
 		}
+	}
+
+	@Override
+	public List<Good> getAllHotGoodBySupermarket(Supermarket supermarket) {
+		// TODO rewrite this method
+		List<Good> all = getAll();
+		for (Good good : all) {
+			initTagsList(good);
+		}
+		return all;
+	}
+
+	@Override
+	public void initTagsList(Good good) {
+		good.setTagsList(getTags(good.getTags()));
+	}
+
+	@Override
+	public List<Good> getAllDiscountGoodBySupermarket(Supermarket supermarket) {
+		// TODO rewrite this method
+		List<Good> all = getAll();
+		for (Good good : all) {
+			initTagsList(good);
+		}
+		return all;
+	}
+
+	@Override
+	public List<Good> getAllHotGood() {
+		List<Supermarket> all = superMarketService.getAll();
+		List<Good> goods = new ArrayList<Good>();
+		for (Supermarket supermarket : all) {
+			goods.addAll(getAllHotGoodBySupermarket(supermarket));
+		}
+		return goods;
+	}
+
+	@Override
+	public List<Good> getAllDiscountGood() {
+		List<Supermarket> all = superMarketService.getAll();
+		List<Good> goods = new ArrayList<Good>();
+		for (Supermarket supermarket : all) {
+			goods.addAll(getAllDiscountGoodBySupermarket(supermarket));
+		}
+		return goods;
 	}
 
 }

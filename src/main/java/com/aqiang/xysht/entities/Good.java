@@ -1,11 +1,14 @@
 package com.aqiang.xysht.entities;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table
@@ -23,6 +26,8 @@ public class Good {
 	private Picture picture;
 	private String description;
 	private String tags;
+	@Transient
+	private List<Tag> tagsList;
 	@ManyToOne
 	@JoinColumn(name = "classfy_id")
 	private Classfy classfy;
@@ -114,6 +119,14 @@ public class Good {
 
 	public void setClassfy(Classfy classfy) {
 		this.classfy = classfy;
+	}
+
+	public List<Tag> getTagsList() {
+		return tagsList;
+	}
+
+	public void setTagsList(List<Tag> tagsList) {
+		this.tagsList = tagsList;
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.aqiang.xysht.service.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -11,6 +13,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import sun.misc.BASE64Encoder;
 
 import com.aqiang.xysht.dao.BaseDao;
 import com.aqiang.xysht.entities.ParameterKey;
@@ -62,8 +66,7 @@ public class PictureServiceImpl extends BaseServiceImpl<Picture> implements Pict
 			file2.mkdirs();
 		}
 		String fileName = UUID.randomUUID().toString() + "." + getPostfixName(file.getOriginalFilename());
-		String pathname = dir + path + fileName;
-		File f = new File(pathname);
+		File f = new File(dir + path + fileName);
 		FileOutputStream out;
 		try {
 			out = new FileOutputStream(f);
@@ -73,8 +76,28 @@ public class PictureServiceImpl extends BaseServiceImpl<Picture> implements Pict
 			e.printStackTrace();
 		}
 		Picture picture = new Picture();
-		picture.setPath(pathname);
+		picture.setPath(path + fileName);
 		saveEntitiy(picture);
 		return picture;
+	}
+
+	@Override
+	public Picture initPictureContext(Picture picture) {
+		if (picture != null && StringUtils.isNotBlank(picture.getPath())) {
+			try {
+				String dir = parameterService.getParameter(ParameterKey.FILE_ROOT_DIR);
+				String path = picture.getPath();
+				FileInputStream in = new FileInputStream(new java.io.File(dir + path));
+				byte[] buffer = new byte[in.available()];
+				in.read(buffer, 0, in.available());
+				BASE64Encoder encoder = new BASE64Encoder();
+				picture.setContext(encoder.encode(buffer));
+				in.close();
+				return picture;
+			} catch (IOException e) {
+				return null;
+			}
+		}
+		return null;
 	}
 }

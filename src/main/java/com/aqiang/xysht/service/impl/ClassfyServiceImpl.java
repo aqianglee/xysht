@@ -1,5 +1,6 @@
 package com.aqiang.xysht.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -86,5 +87,23 @@ public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements Clas
 			delete(classfy2);
 		}
 		deleteEntity(classfy.getId());
+	}
+
+	@Override
+	public List<Classfy> getHotClassfies() {
+		List<Classfy> classfies = new ArrayList<Classfy>();
+		createNewClassfy(classfies, "零食");
+		createNewClassfy(classfies, "生活");
+		createNewClassfy(classfies, "冷饮");
+		createNewClassfy(classfies, "办公");
+		createNewClassfy(classfies, "日杂");
+		return classfies;
+	}
+
+	private void createNewClassfy(List<Classfy> classfies, String name) {
+		Classfy classfy = new Classfy();
+		classfy.setName(name);
+		classfy.setId(classfies.size() + 1);
+		classfies.add(classfy);
 	}
 }

@@ -17,4 +17,6 @@ public interface ClassfyService extends BaseService<Classfy> {
 	public void validateClassfy(Classfy classfy, List<ErrorMessage> messages);
 
 	public void delete(Classfy classfy);
+
+	public List<Classfy> getHotClassfies();
 }

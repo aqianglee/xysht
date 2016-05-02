@@ -73,11 +73,4 @@ public class Classfy {
 		this.level = level;
 	}
 
-	@Override
-	public String toString() {
-		return "Classfy [id=" + id + ", number=" + number + ", name=" + name
-				+ ", level=" + level + ", supermarket=" + supermarket
-				+ ", parent=" + parent + "]";
-	}
-
 }

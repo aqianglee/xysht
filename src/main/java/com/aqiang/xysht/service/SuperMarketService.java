@@ -15,4 +15,5 @@ public interface SuperMarketService extends BaseService<Supermarket> {
 	public void saveOrUpdateEntity(Supermarket supermarket, MultipartFile p);
 
 	public List<ErrorMessage> delete(Supermarket supermarket, Boolean noAsk);
+
 }

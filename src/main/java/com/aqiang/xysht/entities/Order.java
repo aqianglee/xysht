@@ -1,6 +1,7 @@
 package com.aqiang.xysht.entities;
 
 import java.util.Date;
+import java.util.List;
 
 public class Order {
 	private Integer id;
@@ -9,6 +10,7 @@ public class Order {
 	private Date date;
 	private Double price;
 	private String description;
+	private List<OrderItem> orderItems;
 
 	public Integer getId() {
 		return id;
@@ -56,6 +58,14 @@ public class Order {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
 	}
 
 }

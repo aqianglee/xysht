@@ -10,4 +10,6 @@ public interface PictureService extends BaseService<Picture> {
 	public String getPostfixName(String fileName);
 
 	public Picture savePicture(MultipartFile file);
+
+	public Picture initPictureContext(Picture picture);
 }

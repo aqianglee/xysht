@@ -55,6 +55,7 @@
 					test="${requestScope.superMarkets != null && fn:length(requestScope.superMarkets) > 0 }">
 					<table class="table">
 						<tr>
+							<th>图片</th>
 							<th>店铺名称</th>
 							<th>店铺地址</th>
 							<th width="240px">店铺简介</th>
@@ -65,6 +66,13 @@
 
 						<c:forEach items="${requestScope.superMarkets }" var="sm">
 							<tr>
+								<td>
+									<div style="width: 50px; height: 50px;">
+										<img alt="" height="50"
+											src='<c:if test="${sm.icon != null }">${pageContext.request.contextPath }/showPicture?pictureId=${sm.icon.id }</c:if>
+										<c:if test="${sm.icon == null }">${pageContext.request.contextPath }/images/no_picture.jpg</c:if>'>
+									</div>
+								</td>
 								<td>${sm.name }</td>
 								<td>${sm.address }</td>
 								<td>${sm.introduction }</td>

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.aqiang.xysht.entities.ParameterKey;
+import com.aqiang.xysht.service.ParameterService;
 import com.aqiang.xysht.service.PictureService;
 
 @Controller
@@ -18,6 +20,8 @@ public class PictureHandler {
 
 	@Autowired
 	private PictureService pictureService;
+	@Autowired
+	private ParameterService parameterService;
 
 	@RequestMapping("showPicture")
 	public void showPicture(HttpServletRequest request, HttpServletResponse response, Integer pictureId) {
@@ -25,7 +29,8 @@ public class PictureHandler {
 		FileInputStream fis = null;
 		OutputStream os = null;
 		try {
-			fis = new FileInputStream(pictureService.findEntity(pictureId).getPath());
+			fis = new FileInputStream(parameterService.getParameter(ParameterKey.FILE_ROOT_DIR)
+					+ pictureService.findEntity(pictureId).getPath());
 			os = response.getOutputStream();
 			int count = 0;
 			byte[] buffer = new byte[1024 * 8];
