@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aqiang.xysht.entities.Classfy;
 import com.aqiang.xysht.entities.ClassfyLevel;
 import com.aqiang.xysht.entities.Good;
+import com.aqiang.xysht.entities.Manager;
 import com.aqiang.xysht.entities.Parameter;
 import com.aqiang.xysht.entities.ParameterKey;
 import com.aqiang.xysht.entities.Picture;
@@ -19,6 +20,7 @@ import com.aqiang.xysht.entities.Tag;
 import com.aqiang.xysht.entities.TagName;
 import com.aqiang.xysht.service.ClassfyService;
 import com.aqiang.xysht.service.GoodService;
+import com.aqiang.xysht.service.ManagerService;
 import com.aqiang.xysht.service.ParameterService;
 import com.aqiang.xysht.service.PictureService;
 import com.aqiang.xysht.service.ShopKeeperService;
@@ -43,40 +45,68 @@ public class ManualTest {
 	private GoodService goodService;
 	@Autowired
 	private PictureService pictureService;
+	@Autowired
+	private ManagerService managerService;
 
 	@ResponseBody
 	@RequestMapping("manualTest_prepareData")
 	public String prepareData() {
+		prepareManager();
 		prepareParameter();
-		ShopKeeper shopKeeper = registerShopKeeper();
-		Supermarket supermarket = createNewSupermarket(shopKeeper);
-		Classfy electric = createClassfy(supermarket, "电器类", ClassfyLevel.LEVEL_ONE, null);
-		Classfy clothes = createClassfy(supermarket, "衣服类", ClassfyLevel.LEVEL_ONE, null);
-		Classfy snacks = createClassfy(supermarket, "零食类", ClassfyLevel.LEVEL_ONE, null);
+		ShopKeeper shopKeeper = registerShopKeeper("chendawen", "123",
+				"青海大学学海路", "18826202524");
+		Supermarket supermarket = createNewSupermarket(shopKeeper, "学海超市",
+				"学海路");
+		
+		Classfy electric = createClassfy(supermarket, "电器类",
+				ClassfyLevel.LEVEL_ONE, null);
+		Classfy clothes = createClassfy(supermarket, "衣服类",
+				ClassfyLevel.LEVEL_ONE, null);
+		Classfy snacks = createClassfy(supermarket, "零食类",
+				ClassfyLevel.LEVEL_ONE, null);
 
-		Classfy phones = createClassfy(supermarket, "手机", ClassfyLevel.LEVEL_TWO, electric);
-		Classfy noteBooks = createClassfy(supermarket, "笔记本", ClassfyLevel.LEVEL_TWO, electric);
-		Classfy tablets = createClassfy(supermarket, "平板电脑", ClassfyLevel.LEVEL_TWO, electric);
-		Classfy pcs = createClassfy(supermarket, "台式机", ClassfyLevel.LEVEL_TWO, electric);
-		Classfy cameras = createClassfy(supermarket, "照相机", ClassfyLevel.LEVEL_TWO, electric);
-		Classfy coat = createClassfy(supermarket, "正装", ClassfyLevel.LEVEL_TWO, clothes);
-		Classfy sport = createClassfy(supermarket, "运动服", ClassfyLevel.LEVEL_TWO, clothes);
-		Classfy jeans = createClassfy(supermarket, "牛仔裤", ClassfyLevel.LEVEL_TWO, clothes);
+		Classfy phones = createClassfy(supermarket, "手机",
+				ClassfyLevel.LEVEL_TWO, electric);
+		Classfy noteBooks = createClassfy(supermarket, "笔记本",
+				ClassfyLevel.LEVEL_TWO, electric);
+		Classfy tablets = createClassfy(supermarket, "平板电脑",
+				ClassfyLevel.LEVEL_TWO, electric);
+		Classfy pcs = createClassfy(supermarket, "台式机", ClassfyLevel.LEVEL_TWO,
+				electric);
+		Classfy cameras = createClassfy(supermarket, "照相机",
+				ClassfyLevel.LEVEL_TWO, electric);
+		Classfy coat = createClassfy(supermarket, "正装", ClassfyLevel.LEVEL_TWO,
+				clothes);
+		Classfy sport = createClassfy(supermarket, "运动服",
+				ClassfyLevel.LEVEL_TWO, clothes);
+		Classfy jeans = createClassfy(supermarket, "牛仔裤",
+				ClassfyLevel.LEVEL_TWO, clothes);
 
 		createClassfy(supermarket, "辣条", ClassfyLevel.LEVEL_TWO, snacks);
 		createClassfy(supermarket, "方便面", ClassfyLevel.LEVEL_TWO, snacks);
 
-		Classfy mi = createClassfy(supermarket, "小米", ClassfyLevel.LEVEL_THREE, phones);
-		Classfy huawei = createClassfy(supermarket, "华为", ClassfyLevel.LEVEL_THREE, phones);
-		Classfy sunxin = createClassfy(supermarket, "三星", ClassfyLevel.LEVEL_THREE, phones);
-		Classfy iphone = createClassfy(supermarket, "苹果", ClassfyLevel.LEVEL_THREE, phones);
-		Classfy meizu = createClassfy(supermarket, "魅族", ClassfyLevel.LEVEL_THREE, phones);
-		Classfy levone = createClassfy(supermarket, "联想", ClassfyLevel.LEVEL_THREE, phones);
-		Classfy coop = createClassfy(supermarket, "酷派", ClassfyLevel.LEVEL_THREE, phones);
-		Classfy jinli = createClassfy(supermarket, "金立", ClassfyLevel.LEVEL_THREE, phones);
-		Classfy zhongxin = createClassfy(supermarket, "中兴", ClassfyLevel.LEVEL_THREE, phones);
-		Classfy nubiya = createClassfy(supermarket, "努比亚", ClassfyLevel.LEVEL_THREE, phones);
-		Classfy nokia = createClassfy(supermarket, "诺基亚", ClassfyLevel.LEVEL_THREE, phones);
+		Classfy mi = createClassfy(supermarket, "小米", ClassfyLevel.LEVEL_THREE,
+				phones);
+		Classfy huawei = createClassfy(supermarket, "华为",
+				ClassfyLevel.LEVEL_THREE, phones);
+		Classfy sunxin = createClassfy(supermarket, "三星",
+				ClassfyLevel.LEVEL_THREE, phones);
+		Classfy iphone = createClassfy(supermarket, "苹果",
+				ClassfyLevel.LEVEL_THREE, phones);
+		Classfy meizu = createClassfy(supermarket, "魅族",
+				ClassfyLevel.LEVEL_THREE, phones);
+		Classfy levone = createClassfy(supermarket, "联想",
+				ClassfyLevel.LEVEL_THREE, phones);
+		Classfy coop = createClassfy(supermarket, "酷派",
+				ClassfyLevel.LEVEL_THREE, phones);
+		Classfy jinli = createClassfy(supermarket, "金立",
+				ClassfyLevel.LEVEL_THREE, phones);
+		Classfy zhongxin = createClassfy(supermarket, "中兴",
+				ClassfyLevel.LEVEL_THREE, phones);
+		Classfy nubiya = createClassfy(supermarket, "努比亚",
+				ClassfyLevel.LEVEL_THREE, phones);
+		Classfy nokia = createClassfy(supermarket, "诺基亚",
+				ClassfyLevel.LEVEL_THREE, phones);
 
 		Tag hot = tagService.createTag(TagName.HOT);
 		Tag discount = tagService.createTag(TagName.DISCOUNT);
@@ -116,8 +146,20 @@ public class ManualTest {
 		return "1";
 	}
 
-	private Good createGood(String name, Classfy classfy, String number, String description, Boolean offLine,
-			Double price, String specification, List<Tag> tags) {
+	private void prepareManager() {
+		Manager manager = new Manager();
+		manager.setUsername("aqianglee");
+		manager.setPassword("123");
+		manager.setEmail("2621338440@qq.com");
+		manager.setCompellation("李志强");
+		manager.setAddress("广东省珠海市拱北中建大厦1420");
+		manager.setPhone("18826202524");
+		managerService.register(manager);
+	}
+
+	private Good createGood(String name, Classfy classfy, String number,
+			String description, Boolean offLine, Double price,
+			String specification, List<Tag> tags) {
 		Good good = new Good();
 		good.setName(name);
 		good.setClassfy(classfy);
@@ -142,7 +184,8 @@ public class ManualTest {
 		parameterService.saveEntitiy(parameter);
 	}
 
-	private Classfy createClassfy(Supermarket supermarket, String name, String level, Classfy parent) {
+	private Classfy createClassfy(Supermarket supermarket, String name,
+			String level, Classfy parent) {
 		Classfy classfy = new Classfy();
 		classfy.setLevel(level);
 		classfy.setSupermarket(supermarket);
@@ -152,10 +195,11 @@ public class ManualTest {
 		return classfy;
 	}
 
-	private Supermarket createNewSupermarket(ShopKeeper shopKeeper) {
+	private Supermarket createNewSupermarket(ShopKeeper shopKeeper,
+			String name, String address) {
 		Supermarket supermarket = new Supermarket();
-		supermarket.setName("supermarket");
-		supermarket.setAddress("guangdong zhuhai");
+		supermarket.setName(name);
+		supermarket.setAddress(address);
 		supermarket.setDescription("description");
 		supermarket.setDespatchMoney(5D);
 		supermarket.setBeginSendPrice(3D);
@@ -172,12 +216,13 @@ public class ManualTest {
 		return supermarket;
 	}
 
-	private ShopKeeper registerShopKeeper() {
+	private ShopKeeper registerShopKeeper(String username, String password,
+			String address, String phone) {
 		ShopKeeper shopKeeper = new ShopKeeper();
-		shopKeeper.setUsername("aqiang");
-		shopKeeper.setPassword("123");
-		shopKeeper.setAddress("zhuhai");
-		shopKeeper.setPhone("18826202524");
+		shopKeeper.setUsername(username);
+		shopKeeper.setPassword(password);
+		shopKeeper.setAddress(address);
+		shopKeeper.setPhone(phone);
 		shopKeeperService.register(shopKeeper);
 		return shopKeeper;
 	}

@@ -3,6 +3,8 @@ package com.aqiang.xysht.entities;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Version;
+
 public class Order {
 	private Integer id;
 	private String number;
@@ -11,6 +13,8 @@ public class Order {
 	private Double price;
 	private String description;
 	private List<OrderItem> orderItems;
+	@Version
+	private Integer version;
 
 	public Integer getId() {
 		return id;

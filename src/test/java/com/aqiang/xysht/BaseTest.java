@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.aqiang.xysht.service.ClassfyService;
 import com.aqiang.xysht.service.GoodService;
+import com.aqiang.xysht.service.ManagerService;
 import com.aqiang.xysht.service.ParameterService;
 import com.aqiang.xysht.service.PictureService;
 import com.aqiang.xysht.service.ShopKeeperService;
@@ -44,6 +45,8 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 	protected GoodService goodService;
 	@Autowired
 	protected TagService tagService;
+	@Autowired
+	protected ManagerService managerService;
 
 	public void isTrue(boolean result) {
 		assertTrue(result);

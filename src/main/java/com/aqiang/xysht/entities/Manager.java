@@ -1,13 +1,27 @@
 package com.aqiang.xysht.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Manager {
 
+	@Id
+	@GeneratedValue
 	private Integer id;
+	@Column(length = 12)
 	private String compellation;
+	@Column(length = 11)
 	private String phone;
+	@Column(length = 50)
 	private String address;
+	@Column(length = 50)
 	private String username;
+	@Column(length = 50)
 	private String password;
+	@Column(length = 50)
 	private String email;
 
 	public Integer getId() {

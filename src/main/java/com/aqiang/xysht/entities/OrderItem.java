@@ -1,10 +1,14 @@
 package com.aqiang.xysht.entities;
 
+import javax.persistence.Version;
+
 public class OrderItem {
 	private Integer id;
 	private Good good;
 	private Order order;
 	private Integer count;
+	@Version
+	private Integer version;
 
 	public Integer getId() {
 		return id;

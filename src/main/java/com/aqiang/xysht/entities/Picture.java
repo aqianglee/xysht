@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "pictures")
@@ -16,6 +17,8 @@ public class Picture {
 	private String path;
 	@Transient
 	private String context;
+	@Version
+	private Integer version;
 
 	public Integer getId() {
 		return id;

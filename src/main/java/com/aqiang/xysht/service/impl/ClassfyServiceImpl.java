@@ -2,6 +2,8 @@ package com.aqiang.xysht.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -14,6 +16,7 @@ import com.aqiang.xysht.entities.Classfy;
 import com.aqiang.xysht.entities.ClassfyLevel;
 import com.aqiang.xysht.entities.ErrorMessage;
 import com.aqiang.xysht.entities.Good;
+import com.aqiang.xysht.entities.HotClassfyName;
 import com.aqiang.xysht.entities.Supermarket;
 import com.aqiang.xysht.service.ClassfyService;
 import com.aqiang.xysht.service.GoodService;
@@ -21,7 +24,8 @@ import com.aqiang.xysht.service.ValidateService;
 
 @Service
 @Transactional
-public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements ClassfyService {
+public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements
+		ClassfyService {
 	@Autowired
 	private ValidateService validateService;
 	@Autowired
@@ -35,11 +39,13 @@ public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements Clas
 
 	@Override
 	public List<Classfy> getAllClassfies(Supermarket supermarket) {
-		return dao.findEntityByJpql("From Classfy c where c.supermarket = ?", supermarket);
+		return dao.findEntityByJpql("From Classfy c where c.supermarket = ?",
+				supermarket);
 	}
 
 	@Override
-	public List<Classfy> getClassfiesByParent(Supermarket supermarket, Classfy classfy) {
+	public List<Classfy> getClassfiesByParent(Supermarket supermarket,
+			Classfy classfy) {
 		String jpql = null;
 		if (classfy != null) {
 			jpql = "From Classfy c where c.supermarket = ? and parent = ?";
@@ -82,7 +88,8 @@ public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements Clas
 		for (Good good : goods) {
 			goodService.delete(good);
 		}
-		List<Classfy> classfies = getClassfiesByParent(classfy.getSupermarket(), classfy);
+		List<Classfy> classfies = getClassfiesByParent(
+				classfy.getSupermarket(), classfy);
 		for (Classfy classfy2 : classfies) {
 			delete(classfy2);
 		}
@@ -91,12 +98,14 @@ public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements Clas
 
 	@Override
 	public List<Classfy> getHotClassfies() {
+		ResourceBundle langs = ResourceBundle.getBundle("Languages",
+				Locale.CHINESE);
 		List<Classfy> classfies = new ArrayList<Classfy>();
-		createNewClassfy(classfies, "ÁãÊ³");
-		createNewClassfy(classfies, "Éú»î");
-		createNewClassfy(classfies, "ÀäÒû");
-		createNewClassfy(classfies, "°ì¹«");
-		createNewClassfy(classfies, "ÈÕÔÓ");
+		createNewClassfy(classfies, HotClassfyName.SNACK);
+		createNewClassfy(classfies, "ï¿½ï¿½ï¿½");
+		createNewClassfy(classfies, "ï¿½ï¿½ï¿½ï¿½");
+		createNewClassfy(classfies, "ï¿½ì¹«");
+		createNewClassfy(classfies, "ï¿½ï¿½ï¿½ï¿½");
 		return classfies;
 	}
 

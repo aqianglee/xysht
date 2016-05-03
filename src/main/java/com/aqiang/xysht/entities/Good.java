@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 @Entity
 @Table
@@ -32,6 +33,8 @@ public class Good {
 	@JoinColumn(name = "classfy_id")
 	private Classfy classfy;
 	private Boolean offLine = false;
+	@Version
+	private Integer version;
 
 	public Boolean getOffLine() {
 		return offLine;

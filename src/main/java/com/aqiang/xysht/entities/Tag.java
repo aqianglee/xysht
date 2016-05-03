@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "tags")
@@ -13,6 +14,8 @@ public class Tag {
 	@GeneratedValue
 	private Integer id;
 	private String name;
+	@Version
+	private Integer version;
 
 	public Integer getId() {
 		return id;

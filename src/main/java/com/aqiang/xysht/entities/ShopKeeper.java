@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "shopkeepers")
@@ -36,6 +37,8 @@ public class ShopKeeper {
 	@ManyToOne
 	@JoinColumn(name = "icon_id")
 	private Picture icon;
+	@Version
+	private Integer version;
 
 	public Integer getId() {
 		return id;
@@ -119,9 +122,11 @@ public class ShopKeeper {
 
 	@Override
 	public String toString() {
-		return "ShopKeeper [id=" + id + ", compellation=" + compellation + ", username=" + username + ", password="
-				+ password + ", repassword=" + repassword + ", phone=" + phone + ", address=" + address + ", email="
-				+ email + ", logo=" + logo + ", icon=" + icon + "]";
+		return "ShopKeeper [id=" + id + ", compellation=" + compellation
+				+ ", username=" + username + ", password=" + password
+				+ ", repassword=" + repassword + ", phone=" + phone
+				+ ", address=" + address + ", email=" + email + ", logo="
+				+ logo + ", icon=" + icon + "]";
 	}
 
 }

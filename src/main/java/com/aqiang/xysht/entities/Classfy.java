@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "classfies")
@@ -24,6 +25,8 @@ public class Classfy {
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
 	private Classfy parent;
+	@Version
+	private Integer version;
 
 	public Integer getId() {
 		return id;
@@ -71,6 +74,14 @@ public class Classfy {
 
 	public void setLevel(String level) {
 		this.level = level;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 }

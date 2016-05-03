@@ -30,6 +30,10 @@
 			<mvc:mapping path="/shopKeeper/*" />
 			<bean class="com.aqiang.xysht.mvc.interceptor.ShopKeeperLoginInterceptor"></bean>
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="manager/*" />
+			<bean class="com.aqiang.xysht.mvc.interceptor.ManagerLoginInterceptor"></bean>
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 	<bean id="messageSource"
