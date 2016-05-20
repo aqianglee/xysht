@@ -33,6 +33,11 @@ public class Good {
 	@JoinColumn(name = "classfy_id")
 	private Classfy classfy;
 	private Boolean offLine = false;
+	private Integer salesVolume;
+	@ManyToOne
+	@JoinColumn(name = "supermarket_id")
+	private Supermarket supermarket;
+
 	@Version
 	private Integer version;
 
@@ -132,4 +137,28 @@ public class Good {
 		this.tagsList = tagsList;
 	}
 
-}
+	public Integer getSalesVolume() {
+		return salesVolume;
+	}
+
+	public void setSalesVolume(Integer salesVolume) {
+		this.salesVolume = salesVolume;
+	}
+
+	public Supermarket getSupermarket() {
+		return supermarket;
+	}
+
+	public void setSupermarket(Supermarket supermarket) {
+		this.supermarket = supermarket;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+ }

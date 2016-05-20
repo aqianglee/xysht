@@ -1,5 +1,6 @@
 package com.aqiang.xysht.mvc.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,14 +10,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aqiang.xysht.dto.OrderSummary;
 import com.aqiang.xysht.entities.Classfy;
 import com.aqiang.xysht.entities.Good;
 import com.aqiang.xysht.entities.Order;
+import com.aqiang.xysht.entities.OrderItem;
+import com.aqiang.xysht.entities.OrderStatus;
 import com.aqiang.xysht.entities.Supermarket;
+import com.aqiang.xysht.entities.User;
 import com.aqiang.xysht.service.ClassfyService;
 import com.aqiang.xysht.service.GoodService;
+import com.aqiang.xysht.service.OrderService;
 import com.aqiang.xysht.service.PictureService;
-import com.aqiang.xysht.service.SuperMarketService;
+import com.aqiang.xysht.service.SupermarketService;
 
 @Controller
 @RequestMapping("nonLogin")
@@ -25,19 +31,19 @@ public class UserInterface {
 	@Autowired
 	private ClassfyService classfyService;
 	@Autowired
-	private SuperMarketService supermarketService;
+	private SupermarketService supermarketService;
 	@Autowired
 	private GoodService goodService;
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserInterface.class);
 	@Autowired
 	private PictureService pictureSerivce;
+	@Autowired
+	private OrderService orderService;
 
 	@ResponseBody
 	@RequestMapping("getFirstLevelClassfies")
 	public List<Classfy> getFirstLevelClassfies(int sid) {
-		Supermarket supermarket = new Supermarket();
-		supermarket.setId(sid);
-		List<Classfy> classfies = classfyService.getClassfiesByParent(supermarket, null);
+		List<Classfy> classfies = classfyService.getClassfiesByParent(supermarketService.findEntity(sid), null);
 		LOGGER.info("supermarket id {}, get {} first level classfies", sid, classfies.size());
 		return classfies;
 	}
@@ -45,11 +51,8 @@ public class UserInterface {
 	@ResponseBody
 	@RequestMapping("getSecondLevelClassfies")
 	public List<Classfy> getSecondLevelClassfies(int sid, int cid) {
-		Supermarket supermarket = new Supermarket();
-		supermarket.setId(sid);
-		Classfy classfy = new Classfy();
-		classfy.setId(cid);
-		List<Classfy> classfies = classfyService.getClassfiesByParent(supermarket, classfy);
+		List<Classfy> classfies = classfyService.getClassfiesByParent(supermarketService.findEntity(sid),
+				classfyService.findEntity(cid));
 		LOGGER.info("supermarket id {}, classfy id {}, get {} second level classfies", sid, cid, classfies.size());
 		return classfies;
 	}
@@ -67,8 +70,9 @@ public class UserInterface {
 
 	@RequestMapping("getHotGoods")
 	@ResponseBody
-	public List<Good> getAllHotGoodBySupermarketId() {
-		List<Good> goods = goodService.getAllHotGood();
+	public List<Good> getHotGoods(Classfy classfy) {
+		LOGGER.info("hot classfy name : {}", classfy.getName());
+		List<Good> goods = goodService.getHotGoods(classfy);
 		return goods;
 	}
 
@@ -93,21 +97,40 @@ public class UserInterface {
 
 	@RequestMapping("submitOrder")
 	@ResponseBody
-	public void submitOrder(Order order) {
-
+	public void submitOrder(Order order, String goodsId, String counts) {
+		String[] goodsIdArray = goodsId.split(",");
+		String[] countsArray = counts.split(",");
+		LOGGER.info("address {}", order.getUser().getAddress());
+		List<OrderItem> orderItems = new ArrayList<OrderItem>();
+		for (int i = 0; i < goodsIdArray.length; i++) {
+			OrderItem orderItem = new OrderItem();
+			orderItem.setGood(goodService.findEntity(Integer.parseInt(goodsIdArray[i])));
+			orderItem.setCount(Integer.parseInt(countsArray[i]));
+			orderItem.setOrder(order);
+			orderItems.add(orderItem);
+		}
+		order.initPrice(orderItems);
+		order.setSupermarket(orderItems.get(0).getGood().getSupermarket());
+		order.setOrderStatus(OrderStatus.SUBMITED);
+		orderService.submitOrder(order, orderItems);
 	}
 
 	@RequestMapping("getHotClassfies")
 	@ResponseBody
 	public List<Classfy> getHotClassfies() {
-		// TODO implement this method
 		return classfyService.getHotClassfies();
 	}
 
 	@RequestMapping("getHotActivities")
 	@ResponseBody
 	public List<Classfy> getHotActivities() {
-		// TODO implement this method
 		return classfyService.getHotClassfies();
 	}
+
+	@RequestMapping("getMyOrders")
+	@ResponseBody
+	public List<OrderSummary> getMyOrders(User user, String orderStatus) {
+		return orderService.getOrderSummaryByUserAndOrderStatus(user, orderStatus);
+	}
+
 }

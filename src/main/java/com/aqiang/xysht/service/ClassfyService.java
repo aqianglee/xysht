@@ -19,4 +19,6 @@ public interface ClassfyService extends BaseService<Classfy> {
 	public void delete(Classfy classfy);
 
 	public List<Classfy> getHotClassfies();
+
+	public List<Classfy> getHotClassfiesByName(String name);
 }

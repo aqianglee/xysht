@@ -8,7 +8,7 @@ import com.aqiang.xysht.entities.ErrorMessage;
 import com.aqiang.xysht.entities.ShopKeeper;
 import com.aqiang.xysht.entities.Supermarket;
 
-public interface SuperMarketService extends BaseService<Supermarket> {
+public interface SupermarketService extends BaseService<Supermarket> {
 
 	public List<Supermarket> getSupermarketsByShopKeeper(ShopKeeper shopKeeper);
 

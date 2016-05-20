@@ -2,12 +2,6 @@ package com.aqiang.xysht.dao;
 
 import java.util.List;
 
-/**
- * BaseDao接口
- * 
- * @author aqiang
- * @param <T>
- */
 public interface BaseDao<T> {
 
 	public void saveEntitiy(T t);
@@ -21,5 +15,7 @@ public interface BaseDao<T> {
 	public T findEntity(Integer id);
 
 	public List<T> findEntityByJpql(String jpql, Object... objects);
+
+	public List<T> findEntityByJpql(String jpql, List<Object> objects, int first, int max);
 
 }

@@ -2,8 +2,6 @@ package com.aqiang.xysht.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -24,8 +22,7 @@ import com.aqiang.xysht.service.ValidateService;
 
 @Service
 @Transactional
-public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements
-		ClassfyService {
+public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements ClassfyService {
 	@Autowired
 	private ValidateService validateService;
 	@Autowired
@@ -39,13 +36,11 @@ public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements
 
 	@Override
 	public List<Classfy> getAllClassfies(Supermarket supermarket) {
-		return dao.findEntityByJpql("From Classfy c where c.supermarket = ?",
-				supermarket);
+		return dao.findEntityByJpql("From Classfy c where c.supermarket = ?", supermarket);
 	}
 
 	@Override
-	public List<Classfy> getClassfiesByParent(Supermarket supermarket,
-			Classfy classfy) {
+	public List<Classfy> getClassfiesByParent(Supermarket supermarket, Classfy classfy) {
 		String jpql = null;
 		if (classfy != null) {
 			jpql = "From Classfy c where c.supermarket = ? and parent = ?";
@@ -54,6 +49,7 @@ public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements
 			jpql = "From Classfy c where c.supermarket = ? and parent is null";
 			return dao.findEntityByJpql(jpql, supermarket);
 		}
+
 	}
 
 	@Override
@@ -88,8 +84,7 @@ public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements
 		for (Good good : goods) {
 			goodService.delete(good);
 		}
-		List<Classfy> classfies = getClassfiesByParent(
-				classfy.getSupermarket(), classfy);
+		List<Classfy> classfies = getClassfiesByParent(classfy.getSupermarket(), classfy);
 		for (Classfy classfy2 : classfies) {
 			delete(classfy2);
 		}
@@ -98,21 +93,22 @@ public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements
 
 	@Override
 	public List<Classfy> getHotClassfies() {
-		ResourceBundle langs = ResourceBundle.getBundle("Languages",
-				Locale.CHINESE);
 		List<Classfy> classfies = new ArrayList<Classfy>();
 		createNewClassfy(classfies, HotClassfyName.SNACK);
-		createNewClassfy(classfies, "���");
-		createNewClassfy(classfies, "����");
-		createNewClassfy(classfies, "�칫");
-		createNewClassfy(classfies, "����");
+		createNewClassfy(classfies, HotClassfyName.DRINKING);
+		createNewClassfy(classfies, HotClassfyName.STATIONERY);
+		createNewClassfy(classfies, HotClassfyName.ELECTRIC);
 		return classfies;
 	}
 
 	private void createNewClassfy(List<Classfy> classfies, String name) {
 		Classfy classfy = new Classfy();
 		classfy.setName(name);
-		classfy.setId(classfies.size() + 1);
 		classfies.add(classfy);
+	}
+
+	@Override
+	public List<Classfy> getHotClassfiesByName(String name) {
+		return dao.findEntityByJpql("From Classfy c where c.name = ?", name);
 	}
 }

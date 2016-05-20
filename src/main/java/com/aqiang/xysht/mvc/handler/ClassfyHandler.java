@@ -16,7 +16,7 @@ import com.aqiang.xysht.entities.Classfy;
 import com.aqiang.xysht.entities.ErrorMessage;
 import com.aqiang.xysht.entities.Supermarket;
 import com.aqiang.xysht.service.ClassfyService;
-import com.aqiang.xysht.service.SuperMarketService;
+import com.aqiang.xysht.service.SupermarketService;
 
 @Controller
 @RequestMapping("shopKeeper")
@@ -26,7 +26,7 @@ public class ClassfyHandler {
 	@Autowired
 	private ClassfyService classfyService;
 	@Autowired
-	private SuperMarketService supermarketService;
+	private SupermarketService supermarketService;
 
 	@RequestMapping("listAllClassfies")
 	public String list(Map<String, Object> map, int sid, Integer parentId) {

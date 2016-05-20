@@ -43,7 +43,7 @@ public class ClassfyServiceImplTest5 extends BaseTest {
 		Supermarket supermarket = new Supermarket();
 		supermarket.setName(name);
 		supermarket.setAddress(address);
-		superMarketService.saveEntitiy(supermarket);
+		supermarketService.saveEntitiy(supermarket);
 		return supermarket;
 	}
 

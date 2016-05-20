@@ -15,7 +15,7 @@ public class ClassfyServiceImplTest3 extends BaseTest {
 	public void testUpdateClassfy() {
 		Supermarket supermarket = new Supermarket();
 		supermarket.setName("supermarket");
-		superMarketService.saveEntitiy(supermarket);
+		supermarketService.saveEntitiy(supermarket);
 		Classfy clothes = createClassfy(supermarket, "衣服类", null);
 		clothes = classfyService.updateClassfy(clothes);
 		Classfy coats = createClassfy(supermarket, "外套", clothes);

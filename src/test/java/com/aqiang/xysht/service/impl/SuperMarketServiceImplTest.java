@@ -22,8 +22,8 @@ public class SuperMarketServiceImplTest extends BaseTest {
 		supermarket.setAddress("�㶫ʡ�麣��");
 		supermarket.setName("���˼�");
 		supermarket.setBeginSendPrice(10D);
-		superMarketService.saveEntitiy(supermarket);
-		List<Supermarket> markets = superMarketService
+		supermarketService.saveEntitiy(supermarket);
+		List<Supermarket> markets = supermarketService
 				.getSupermarketsByShopKeeper(shopKeeper);
 		isEq(1, markets.size());
 		isEq("�㶫ʡ�麣��", markets.get(0).getAddress());

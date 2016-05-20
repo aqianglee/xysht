@@ -1,7 +1,9 @@
 package com.aqiang.xysht.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -20,9 +22,10 @@ import com.aqiang.xysht.entities.Good;
 import com.aqiang.xysht.entities.Picture;
 import com.aqiang.xysht.entities.Supermarket;
 import com.aqiang.xysht.entities.Tag;
+import com.aqiang.xysht.service.ClassfyService;
 import com.aqiang.xysht.service.GoodService;
 import com.aqiang.xysht.service.PictureService;
-import com.aqiang.xysht.service.SuperMarketService;
+import com.aqiang.xysht.service.SupermarketService;
 import com.aqiang.xysht.service.TagService;
 import com.aqiang.xysht.service.ValidateService;
 
@@ -37,7 +40,9 @@ public class GoodServiceImpl extends BaseServiceImpl<Good> implements GoodServic
 	@Autowired
 	private TagService tagService;
 	@Autowired
-	private SuperMarketService superMarketService;
+	private SupermarketService supermarketService;
+	@Autowired
+	private ClassfyService classfyService;
 	private static final Logger LOGGER = LoggerFactory.getLogger(GoodServiceImpl.class);
 
 	@Resource(name = "goodDao")
@@ -117,8 +122,10 @@ public class GoodServiceImpl extends BaseServiceImpl<Good> implements GoodServic
 
 	@Override
 	public void addTags(Good good, List<Tag> tags) {
-		for (Tag tag : tags) {
-			addTag(good, tag);
+		if (tags != null) {
+			for (Tag tag : tags) {
+				addTag(good, tag);
+			}
 		}
 	}
 
@@ -148,18 +155,46 @@ public class GoodServiceImpl extends BaseServiceImpl<Good> implements GoodServic
 	}
 
 	@Override
-	public List<Good> getAllHotGood() {
-		List<Supermarket> all = superMarketService.getAll();
+	public List<Good> getHotGoods(Classfy classfy) {
 		List<Good> goods = new ArrayList<Good>();
-		for (Supermarket supermarket : all) {
-			goods.addAll(getAllHotGoodBySupermarket(supermarket));
+		List<Classfy> classfies = classfyService.getHotClassfiesByName(classfy.getName());
+		LOGGER.info("get {} classfies", classfies.size());
+		for (Classfy c : classfies) {
+			goods.addAll(getHotGoodsByClassfy(c));
+		}
+		sortGoodsBySalesVolume(goods);
+		return goods;
+	}
+
+	private void sortGoodsBySalesVolume(List<Good> goods) {
+		Collections.sort(goods, new Comparator<Good>() {
+			@Override
+			public int compare(Good o1, Good o2) {
+				return o2.getSalesVolume() - o1.getSalesVolume();
+			}
+		});
+	}
+
+	private List<Good> getHotGoodsByClassfy(Classfy classfy) {
+		// Tag hotTag = tagService.getTagByName(TagName.HOT);
+		LOGGER.info("classfy id is {} name is {}, and supermarket is {}", classfy.getId(), classfy.getName(), classfy
+				.getSupermarket().getName());
+		List<Good> goods = new ArrayList<Good>();
+		List<Good> findEntityByJpql = findEntityByJpql("From Good g where g.classfy = ? order by salesVolume desc",
+				Arrays.asList(classfy), 0, 3);
+		LOGGER.info("get {} goods with classfy id is {}", findEntityByJpql.size(), classfy.getId());
+		goods.addAll(findEntityByJpql);
+		List<Classfy> list = classfyService.getClassfiesByParent(classfy.getSupermarket(), classfy);
+		LOGGER.info("get {} subclassfy with classfy id is {}", list.size(), classfy.getId());
+		for (Classfy c : list) {
+			goods.addAll(getHotGoodsByClassfy(c));
 		}
 		return goods;
 	}
 
 	@Override
 	public List<Good> getAllDiscountGood() {
-		List<Supermarket> all = superMarketService.getAll();
+		List<Supermarket> all = supermarketService.getAll();
 		List<Good> goods = new ArrayList<Good>();
 		for (Supermarket supermarket : all) {
 			goods.addAll(getAllDiscountGoodBySupermarket(supermarket));

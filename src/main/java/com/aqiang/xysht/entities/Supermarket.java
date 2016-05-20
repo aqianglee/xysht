@@ -1,5 +1,7 @@
 package com.aqiang.xysht.entities;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,8 +27,10 @@ public class Supermarket {
 	private String introduction;
 	private Double beginSendPrice;
 	private Double despatchMoney;
-	private Integer serviceArea;
+	private String serviceArea;
 	private String description;
+	private Date date;
+	private Picture activityPicture;
 	@ManyToOne
 	@JoinColumn(name = "icon_id")
 	private Picture icon;
@@ -105,12 +109,20 @@ public class Supermarket {
 		this.despatchMoney = despatchMoney;
 	}
 
-	public Integer getServiceArea() {
+	public String getServiceArea() {
 		return serviceArea;
 	}
 
-	public void setServiceArea(Integer serviceArea) {
+	public void setServiceArea(String serviceArea) {
 		this.serviceArea = serviceArea;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 	public String getDescription() {
@@ -129,13 +141,27 @@ public class Supermarket {
 		this.icon = icon;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Picture getActivityPicture() {
+		return activityPicture;
+	}
+
+	public void setActivityPicture(Picture activityPicture) {
+		this.activityPicture = activityPicture;
+	}
+
 	@Override
 	public String toString() {
-		return "Supermarket [id=" + id + ", number=" + number + ", name="
-				+ name + ", shopKeeper=" + shopKeeper + ", address=" + address
-				+ ", qq=" + qq + ", introduction=" + introduction
-				+ ", beginSendPrice=" + beginSendPrice + ", despatchMoney="
-				+ despatchMoney + ", serviceArea=" + serviceArea
+		return "Supermarket [id=" + id + ", number=" + number + ", name=" + name + ", shopKeeper=" + shopKeeper
+				+ ", address=" + address + ", qq=" + qq + ", introduction=" + introduction + ", beginSendPrice="
+				+ beginSendPrice + ", despatchMoney=" + despatchMoney + ", serviceArea=" + serviceArea
 				+ ", description=" + description + ", icon=" + icon + "]";
 	}
 

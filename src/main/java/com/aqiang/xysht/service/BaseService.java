@@ -18,4 +18,6 @@ public interface BaseService<T> {
 	public void deleteAll();
 
 	public List<T> getAll();
+
+	public List<T> findEntityByJpql(String jpql, List<Object> objects, int first, int max);
 }

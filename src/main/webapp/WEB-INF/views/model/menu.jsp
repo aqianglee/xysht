@@ -38,12 +38,7 @@
 		<ul id="childMenu2" class="box" style="display: none;">
 			<li>
 				<div class="menu_class_2">
-					<a href="${pageContext.request.contextPath }/shopKeeper/passenger_showpage">订单管理</a>
-				</div>
-			</li>
-			<li>
-				<div class="menu_class_2">
-					<a href="${pageContext.request.contextPath }/shopKeeper/listAllStates">订单状态管理</a>
+					<a href="${pageContext.request.contextPath }/shopKeeper/listAllOrders?orderStatus=all">订单管理</a>
 				</div>
 			</li>
 		</ul>

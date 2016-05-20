@@ -14,7 +14,7 @@ public class ClassfyServiceImplTest extends BaseTest {
 	public void testGetAllClassfies() {
 		Supermarket supermarket = new Supermarket();
 		supermarket.setName("校园超市");
-		superMarketService.saveEntitiy(supermarket);
+		supermarketService.saveEntitiy(supermarket);
 		createClassfy(supermarket, "方便面", null);
 		List<Classfy> classfies = classfyService.getAllClassfies(supermarket);
 		isEq(1, classfies.size());

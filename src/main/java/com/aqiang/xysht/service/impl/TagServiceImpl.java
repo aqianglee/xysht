@@ -46,4 +46,10 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
 		}
 		return null;
 	}
+
+	@Override
+	public Tag getTagByName(String name) {
+		List<Tag> tags = findEntityByJpql("From Tag t where t.name = ?", name);
+		return tags.isEmpty() ? null : tags.get(0);
+	}
 }

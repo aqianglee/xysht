@@ -29,7 +29,7 @@ public interface GoodService extends BaseService<Good> {
 
 	public List<Good> getAllDiscountGoodBySupermarket(Supermarket supermarket);
 
-	public List<Good> getAllHotGood();
+	public List<Good> getHotGoods(Classfy classfy);
 
 	public List<Good> getAllDiscountGood();
 }

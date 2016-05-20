@@ -21,11 +21,11 @@ import com.aqiang.xysht.entities.Supermarket;
 import com.aqiang.xysht.service.ClassfyService;
 import com.aqiang.xysht.service.PictureService;
 import com.aqiang.xysht.service.ShopKeeperService;
-import com.aqiang.xysht.service.SuperMarketService;
+import com.aqiang.xysht.service.SupermarketService;
 
 @Service
 @Transactional
-public class SuperMarketServiceImpl extends BaseServiceImpl<Supermarket> implements SuperMarketService {
+public class SuperMarketServiceImpl extends BaseServiceImpl<Supermarket> implements SupermarketService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SuperMarketServiceImpl.class);
 
 	@Autowired

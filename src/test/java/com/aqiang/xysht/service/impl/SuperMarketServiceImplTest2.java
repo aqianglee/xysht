@@ -17,25 +17,25 @@ public class SuperMarketServiceImplTest2 extends BaseTest {
 	@Test
 	public void testDelete() {
 		Supermarket supermarket = createSupermarket("便利店", "广东珠海");
-		isEq(superMarketService.getAll().size(), 1);
-		superMarketService.delete(supermarket, true);
-		isEq(superMarketService.getAll().size(), 0);
+		isEq(supermarketService.getAll().size(), 1);
+		supermarketService.delete(supermarket, true);
+		isEq(supermarketService.getAll().size(), 0);
 	}
 
 	@Test
 	public void testDelete2() {
 		Supermarket supermarket = createSupermarket("便利店", "广东珠海");
-		isEq(superMarketService.getAll().size(), 1);
-		superMarketService.delete(supermarket, false);
-		isEq(superMarketService.getAll().size(), 0);
+		isEq(supermarketService.getAll().size(), 1);
+		supermarketService.delete(supermarket, false);
+		isEq(supermarketService.getAll().size(), 0);
 	}
 
 	@Test
 	public void testDelete3() {
 		Supermarket supermarket = createSupermarket("便利店", "广东珠海");
-		isEq(superMarketService.getAll().size(), 1);
-		superMarketService.delete(supermarket, null);
-		isEq(superMarketService.getAll().size(), 0);
+		isEq(supermarketService.getAll().size(), 1);
+		supermarketService.delete(supermarket, null);
+		isEq(supermarketService.getAll().size(), 0);
 	}
 
 	@Test
@@ -44,9 +44,9 @@ public class SuperMarketServiceImplTest2 extends BaseTest {
 		Classfy classfy = createClassfy(supermarket, null, "衣服类", ClassfyLevel.LEVEL_ONE, "1");
 		Classfy classfy2 = createClassfy(supermarket, classfy, "牛仔裤", ClassfyLevel.LEVEL_TWO, "2");
 		createClassfy(supermarket, classfy2, "LEE", ClassfyLevel.LEVEL_THREE, "3");
-		isEq(superMarketService.getAll().size(), 1);
-		superMarketService.delete(supermarket, true);
-		isEq(superMarketService.getAll().size(), 0);
+		isEq(supermarketService.getAll().size(), 1);
+		supermarketService.delete(supermarket, true);
+		isEq(supermarketService.getAll().size(), 0);
 	}
 
 	@Test
@@ -55,9 +55,9 @@ public class SuperMarketServiceImplTest2 extends BaseTest {
 		Classfy classfy = createClassfy(supermarket, null, "衣服类", ClassfyLevel.LEVEL_ONE, "1");
 		Classfy classfy2 = createClassfy(supermarket, classfy, "牛仔裤", ClassfyLevel.LEVEL_TWO, "2");
 		createClassfy(supermarket, classfy2, "LEE", ClassfyLevel.LEVEL_THREE, "3");
-		isEq(superMarketService.getAll().size(), 1);
-		List<ErrorMessage> list = superMarketService.delete(supermarket, false);
-		isEq(superMarketService.getAll().size(), 1);
+		isEq(supermarketService.getAll().size(), 1);
+		List<ErrorMessage> list = supermarketService.delete(supermarket, false);
+		isEq(supermarketService.getAll().size(), 1);
 		isEq(list.size(), 1);
 		isEq(list.get(0).getKey(), "have.child");
 	}
@@ -68,9 +68,9 @@ public class SuperMarketServiceImplTest2 extends BaseTest {
 		Classfy classfy = createClassfy(supermarket, null, "衣服类", ClassfyLevel.LEVEL_ONE, "1");
 		Classfy classfy2 = createClassfy(supermarket, classfy, "牛仔裤", ClassfyLevel.LEVEL_TWO, "2");
 		createClassfy(supermarket, classfy2, "LEE", ClassfyLevel.LEVEL_THREE, "3");
-		isEq(superMarketService.getAll().size(), 1);
-		List<ErrorMessage> list = superMarketService.delete(supermarket, null);
-		isEq(superMarketService.getAll().size(), 1);
+		isEq(supermarketService.getAll().size(), 1);
+		List<ErrorMessage> list = supermarketService.delete(supermarket, null);
+		isEq(supermarketService.getAll().size(), 1);
 		isEq(list.size(), 1);
 		isEq(list.get(0).getKey(), "have.child");
 	}
@@ -79,7 +79,7 @@ public class SuperMarketServiceImplTest2 extends BaseTest {
 		Supermarket supermarket = new Supermarket();
 		supermarket.setName(name);
 		supermarket.setAddress(address);
-		superMarketService.saveEntitiy(supermarket);
+		supermarketService.saveEntitiy(supermarket);
 		return supermarket;
 	}
 

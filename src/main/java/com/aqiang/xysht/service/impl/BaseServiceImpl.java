@@ -21,8 +21,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	public abstract void setDao(BaseDao<T> dao);
 
 	public BaseServiceImpl() {
-		ParameterizedType type = (ParameterizedType) this.getClass()
-				.getGenericSuperclass();
+		ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
 		clazz = (Class<T>) type.getActualTypeArguments()[0];
 	}
 
@@ -48,6 +47,11 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
 	public List<T> findEntityByJpql(String jpql, Object... objects) {
 		return dao.findEntityByJpql(jpql, objects);
+	}
+
+	@Override
+	public List<T> findEntityByJpql(String jpql, List<Object> objects, int first, int max) {
+		return dao.findEntityByJpql(jpql, objects, first, max);
 	}
 
 	@Override
