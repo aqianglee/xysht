@@ -48,7 +48,9 @@ public class GoodHandler {
 
 	@RequestMapping("editGood")
 	public String editUI(Integer classfyId, Map<String, Object> map) {
-		map.put("classfy", classfyService.findEntity(classfyId));
+		Classfy classfy = classfyService.findEntity(classfyId);
+		map.put("classfy", classfy);
+		map.put("supermarket", classfy.getSupermarket());
 		map.put("tags", tagService.getAllTags());
 		return "good/editUI";
 	}
@@ -58,8 +60,8 @@ public class GoodHandler {
 			@RequestParam(value = "p", required = false) MultipartFile p) {
 		errorMessages = new ArrayList<ErrorMessage>();
 		goodService.validateGood(good, errorMessages);
-		// TODO replace this code smile
-		good.setSupermarket(classfyService.findEntity(good.getClassfy().getId()).getSupermarket());
+		good.setClassfy(classfyService.findEntity(good.getClassfy().getId()));
+		good.setSupermarket(supermarketService.findEntity(good.getSupermarket().getId()));
 		LOGGER.info("in goodhandler page good is : {}", good);
 		if (errorMessages.size() == 0) {
 			goodService.updateGood(good, tagsId, p);

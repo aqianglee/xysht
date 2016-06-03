@@ -47,7 +47,7 @@
 		<ul id="childMenu3" class="box" style="display: none;">
 			<li>
 				<div class="menu_class_2">
-					<a href="${pageContext.request.contextPath }/manager/passenger_showpage">系统参数</a>
+					<a href="${pageContext.request.contextPath }/manager/listAllParameters">系统参数</a>
 				</div>
 			</li>
 		</ul>

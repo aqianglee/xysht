@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.aqiang.xysht.dao.BaseDao;
 import com.aqiang.xysht.entities.Classfy;
+import com.aqiang.xysht.entities.ClassfyLevel;
 import com.aqiang.xysht.entities.ErrorMessage;
 import com.aqiang.xysht.entities.Picture;
 import com.aqiang.xysht.entities.ShopKeeper;
@@ -41,17 +42,32 @@ public class SuperMarketServiceImpl extends BaseServiceImpl<Supermarket> impleme
 	}
 
 	@Override
-	public void saveOrUpdateEntity(Supermarket supermarket, MultipartFile p) {
-		Picture picture = null;
-		if (p != null) {
+	public void saveOrUpdateEntity(Supermarket supermarket, MultipartFile p, String[] hotClass,
+			MultipartFile activityPicture) {
+		supermarket.setIcon(handlePicture(supermarket, p));
+		supermarket.setActivityPicture(handlePicture(supermarket, activityPicture));
+		Supermarket entity = margeEntity(supermarket);
+		if (hotClass != null) {
+			for (String string : hotClass) {
+				Classfy classfy = new Classfy();
+				classfy.setLevel(ClassfyLevel.LEVEL_ONE);
+				classfy.setName(string);
+				classfy.setSupermarket(supermarket);
+				classfy.setSupermarket(entity);
+				classfyService.saveEntitiy(classfy);
+			}
+		}
+	}
+
+	private Picture handlePicture(Supermarket supermarket, MultipartFile file) {
+		if (file != null) {
 			Picture icon = supermarket.getIcon();
 			if (icon != null) {
 				pictureService.deletePicture(icon);
 			}
-			picture = pictureService.savePicture(p);
+			return pictureService.savePicture(file);
 		}
-		supermarket.setIcon(picture);
-		margeEntity(supermarket);
+		return null;
 	}
 
 	@Resource(name = "superMarketDao")

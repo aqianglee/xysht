@@ -1,5 +1,6 @@
 package com.aqiang.xysht.mvc.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,24 +10,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aqiang.xysht.entities.Classfy;
 import com.aqiang.xysht.entities.ClassfyLevel;
+import com.aqiang.xysht.entities.ErrorMessage;
 import com.aqiang.xysht.entities.Good;
 import com.aqiang.xysht.entities.HotClassfyName;
 import com.aqiang.xysht.entities.Manager;
 import com.aqiang.xysht.entities.Parameter;
 import com.aqiang.xysht.entities.ParameterKey;
 import com.aqiang.xysht.entities.Picture;
+import com.aqiang.xysht.entities.ReceiveAddress;
 import com.aqiang.xysht.entities.ShopKeeper;
 import com.aqiang.xysht.entities.Supermarket;
 import com.aqiang.xysht.entities.Tag;
 import com.aqiang.xysht.entities.TagName;
+import com.aqiang.xysht.entities.User;
 import com.aqiang.xysht.service.ClassfyService;
 import com.aqiang.xysht.service.GoodService;
 import com.aqiang.xysht.service.ManagerService;
 import com.aqiang.xysht.service.ParameterService;
 import com.aqiang.xysht.service.PictureService;
+import com.aqiang.xysht.service.ReceiveAddressService;
 import com.aqiang.xysht.service.ShopKeeperService;
 import com.aqiang.xysht.service.SupermarketService;
 import com.aqiang.xysht.service.TagService;
+import com.aqiang.xysht.service.UserService;
 
 @Controller
 @RequestMapping("/nonLogin")
@@ -48,6 +54,10 @@ public class ManualTest {
 	private PictureService pictureService;
 	@Autowired
 	private ManagerService managerService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	protected ReceiveAddressService receiveAddressService;
 
 	@ResponseBody
 	@RequestMapping("manualTest_prepareData")
@@ -157,7 +167,30 @@ public class ManualTest {
 		Good good = createGood("nick", supermarket, sport, "1", "运动服", false, 130D, "", all, 1);
 		createGood("pick", supermarket, sport, "1", "运动服", false, 130D, "", all, 1);
 		createGood("x", supermarket, sport, "1", "运动服", false, 130D, "", all, 1);
+
+		User user = new User();
+		user.setEmail("695182311@qq.com");
+		user.setPassword("123");
+		user.setUsername("aqiang");
+		user.setPhone("18826202524");
+		ArrayList<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+		userService.registerUser(user, errorMessages);
+
+		createReceiveAddress(user, "李志强", "青海大学学生公寓一号楼223", "18826202524", false);
+		createReceiveAddress(user, "李志强", "广东省珠海市中建大厦1420", "18826202524", true);
 		return "1";
+	}
+
+	private ReceiveAddress createReceiveAddress(User user, String compellation, String address, String phone,
+			Boolean selected) {
+		ReceiveAddress receiveAddress = new ReceiveAddress();
+		receiveAddress.setUser(user);
+		receiveAddress.setAddress(address);
+		receiveAddress.setCompellation(compellation);
+		receiveAddress.setPhone(phone);
+		receiveAddress.setSelected(selected);
+		receiveAddressService.saveEntitiy(receiveAddress);
+		return receiveAddress;
 	}
 
 	private void prepareManager() {

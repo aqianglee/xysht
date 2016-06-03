@@ -12,12 +12,12 @@ public class User {
 	@GeneratedValue
 	private Integer id;
 	private String number;
-	private String compellation;
-	private String phone;
-	private String address;
 	private String username;
 	private String password;
 	private String email;
+	private String phone;
+
+	// 积分
 	private Integer integral;
 	@Version
 	private Integer version;
@@ -36,30 +36,6 @@ public class User {
 
 	public void setNumber(String number) {
 		this.number = number;
-	}
-
-	public String getCompellation() {
-		return compellation;
-	}
-
-	public void setCompellation(String compellation) {
-		this.compellation = compellation;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public String getUsername() {
@@ -100,6 +76,20 @@ public class User {
 
 	public void setVersion(Integer version) {
 		this.version = version;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", number=" + number + ", username=" + username + ", password=" + password
+				+ ", email=" + email + ", integral=" + integral + ", version=" + version + "]";
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }

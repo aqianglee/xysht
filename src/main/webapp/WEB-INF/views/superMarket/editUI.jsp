@@ -9,7 +9,8 @@
 <%@ include file="../model/js.jsp"%>
 <script type="text/javascript">
 	$(function() {
-
+		$("#tab2").hide();
+		$("#tab3").hide();
 		$(".nav-item").click(function() {
 			removeAllActive()
 			$(this).addClass("active");
@@ -120,11 +121,12 @@
 					<div id="tab2" class="tab-content" style="padding: 10px">
 						热门分类：
 						<c:forEach items="${hotClassfies }" var="c">
-							<input type="checkbox" name="hotClass" value="${c.id }"> <fmt:message key="${c.name }"/>
+							<input type="checkbox" name="hotClass" value="${c.name }">
+							<fmt:message key="${c.name }" />
 						</c:forEach>
 					</div>
 					<div id="tab3" class="tab-content">
-						宣传图片：<input type="file" name="activityPicture">
+						宣传图片：<input type="file" name="activePicture" class="textFiled">
 					</div>
 				</form:form>
 			</div>

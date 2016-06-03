@@ -25,6 +25,7 @@ import com.aqiang.xysht.service.OrderItemService;
 import com.aqiang.xysht.service.OrderService;
 import com.aqiang.xysht.service.ParameterService;
 import com.aqiang.xysht.service.PictureService;
+import com.aqiang.xysht.service.ReceiveAddressService;
 import com.aqiang.xysht.service.ShopKeeperService;
 import com.aqiang.xysht.service.SupermarketService;
 import com.aqiang.xysht.service.TagService;
@@ -59,6 +60,8 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 	protected OrderItemService orderItemService;
 	@Autowired
 	protected UserService userService;
+	@Autowired
+	protected ReceiveAddressService receiveAddressService;
 
 	public void isTrue(boolean result) {
 		assertTrue(result);
@@ -91,6 +94,7 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 		shopKeeperService.deleteAll();
 		parameterService.deleteAll();
 		orderService.deleteAll();
+		receiveAddressService.deleteAll();
 		userService.deleteAll();
 		supermarketService.deleteAll();
 	}

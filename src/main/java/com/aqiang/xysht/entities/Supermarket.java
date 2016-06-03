@@ -30,9 +30,11 @@ public class Supermarket {
 	private String serviceArea;
 	private String description;
 	private Date date;
+	@ManyToOne
+	@JoinColumn(name = "activity_picture")
 	private Picture activityPicture;
 	@ManyToOne
-	@JoinColumn(name = "icon_id")
+	@JoinColumn(name = "icon")
 	private Picture icon;
 	@Version
 	private Integer version;

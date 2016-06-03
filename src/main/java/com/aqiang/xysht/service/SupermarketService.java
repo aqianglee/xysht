@@ -12,7 +12,8 @@ public interface SupermarketService extends BaseService<Supermarket> {
 
 	public List<Supermarket> getSupermarketsByShopKeeper(ShopKeeper shopKeeper);
 
-	public void saveOrUpdateEntity(Supermarket supermarket, MultipartFile p);
+	public void saveOrUpdateEntity(Supermarket supermarket, MultipartFile p, String[] hotClass,
+			MultipartFile activityPicture);
 
 	public List<ErrorMessage> delete(Supermarket supermarket, Boolean noAsk);
 

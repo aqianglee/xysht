@@ -21,11 +21,19 @@ public class Order {
 	@JoinColumn(name = "user_id")
 	private User user;
 	private String number;
-	private Date date;
+	private Date submitedTime;
+	private Date checkedTime;
+	private Date forwordTime;
+	private Date receivedTime;
+	private Date remarkedTime;
+	private Date refundTime;
 	private Double price;
 	private String description;
 	private String payWay;
 	private String orderStatus;
+	@ManyToOne
+	@JoinColumn(name = "receive_address_id")
+	private ReceiveAddress receiveAddress;
 	@ManyToOne
 	@JoinColumn(name = "supermarket_id")
 	private Supermarket supermarket;
@@ -54,14 +62,6 @@ public class Order {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public Double getPrice() {
@@ -117,6 +117,62 @@ public class Order {
 
 	public void setSupermarket(Supermarket supermarket) {
 		this.supermarket = supermarket;
+	}
+
+	public Date getSubmitedTime() {
+		return submitedTime;
+	}
+
+	public void setSubmitedTime(Date submitedTime) {
+		this.submitedTime = submitedTime;
+	}
+
+	public Date getCheckedTime() {
+		return checkedTime;
+	}
+
+	public void setCheckedTime(Date checkedTime) {
+		this.checkedTime = checkedTime;
+	}
+
+	public Date getForwordTime() {
+		return forwordTime;
+	}
+
+	public void setForwordTime(Date forwordTime) {
+		this.forwordTime = forwordTime;
+	}
+
+	public Date getReceivedTime() {
+		return receivedTime;
+	}
+
+	public void setReceivedTime(Date receivedTime) {
+		this.receivedTime = receivedTime;
+	}
+
+	public Date getRemarkedTime() {
+		return remarkedTime;
+	}
+
+	public void setRemarkedTime(Date remarkedTime) {
+		this.remarkedTime = remarkedTime;
+	}
+
+	public Date getRefundTime() {
+		return refundTime;
+	}
+
+	public void setRefundTime(Date refundTime) {
+		this.refundTime = refundTime;
+	}
+
+	public ReceiveAddress getReceiveAddress() {
+		return receiveAddress;
+	}
+
+	public void setReceiveAddress(ReceiveAddress receiveAddress) {
+		this.receiveAddress = receiveAddress;
 	}
 
 }

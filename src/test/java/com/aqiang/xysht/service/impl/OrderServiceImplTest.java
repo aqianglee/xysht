@@ -12,6 +12,7 @@ import com.aqiang.xysht.entities.Order;
 import com.aqiang.xysht.entities.OrderItem;
 import com.aqiang.xysht.entities.OrderStatus;
 import com.aqiang.xysht.entities.PayWays;
+import com.aqiang.xysht.entities.ReceiveAddress;
 import com.aqiang.xysht.entities.Supermarket;
 import com.aqiang.xysht.entities.User;
 
@@ -21,7 +22,7 @@ public class OrderServiceImplTest extends BaseTest {
 	public void testSubmitOrder() {
 		Order order = new Order();
 		order.setUser(createUser());
-		order.setDate(new Date());
+		order.setSubmitedTime(new Date());
 		order.setOrderStatus(OrderStatus.SUBMITED);
 		order.setNumber("123");
 		Supermarket supermarket = createSupermarket();
@@ -75,9 +76,10 @@ public class OrderServiceImplTest extends BaseTest {
 
 	private User createUser() {
 		User user = new User();
-		user.setAddress("一号楼223");
-		user.setPhone("18826202524");
-		user.setCompellation("李志强");
+		ReceiveAddress receiveAddress = new ReceiveAddress();
+		receiveAddress.setAddress("一号楼223");
+		receiveAddress.setPhone("18826202524");
+		receiveAddress.setCompellation("李志强");
 		return user;
 	}
 

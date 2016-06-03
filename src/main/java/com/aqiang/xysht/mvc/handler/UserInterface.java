@@ -12,17 +12,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aqiang.xysht.dto.OrderSummary;
 import com.aqiang.xysht.entities.Classfy;
+import com.aqiang.xysht.entities.ErrorMessage;
 import com.aqiang.xysht.entities.Good;
 import com.aqiang.xysht.entities.Order;
 import com.aqiang.xysht.entities.OrderItem;
 import com.aqiang.xysht.entities.OrderStatus;
+import com.aqiang.xysht.entities.ReceiveAddress;
 import com.aqiang.xysht.entities.Supermarket;
 import com.aqiang.xysht.entities.User;
 import com.aqiang.xysht.service.ClassfyService;
 import com.aqiang.xysht.service.GoodService;
 import com.aqiang.xysht.service.OrderService;
 import com.aqiang.xysht.service.PictureService;
+import com.aqiang.xysht.service.ReceiveAddressService;
 import com.aqiang.xysht.service.SupermarketService;
+import com.aqiang.xysht.service.UserService;
 
 @Controller
 @RequestMapping("nonLogin")
@@ -39,6 +43,10 @@ public class UserInterface {
 	private PictureService pictureSerivce;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private ReceiveAddressService receiveAddressService;
 
 	@ResponseBody
 	@RequestMapping("getFirstLevelClassfies")
@@ -73,6 +81,9 @@ public class UserInterface {
 	public List<Good> getHotGoods(Classfy classfy) {
 		LOGGER.info("hot classfy name : {}", classfy.getName());
 		List<Good> goods = goodService.getHotGoods(classfy);
+		for (Good good : goods) {
+			good.setPicture(pictureSerivce.initPictureContext(good.getPicture()));
+		}
 		return goods;
 	}
 
@@ -80,6 +91,9 @@ public class UserInterface {
 	@ResponseBody
 	public List<Good> getAllDisCountGoodBySupermarketId() {
 		List<Good> goods = goodService.getAllDiscountGood();
+		for (Good good : goods) {
+			good.setPicture(pictureSerivce.initPictureContext(good.getPicture()));
+		}
 		return goods;
 	}
 
@@ -88,6 +102,9 @@ public class UserInterface {
 	public List<Good> getAllGoodsByReclassfyId(Integer id) {
 		Classfy classfy = classfyService.findEntity(id);
 		List<Good> goods = goodService.getAllGoodsByClassfy(classfy);
+		for (Good good : goods) {
+			good.setPicture(pictureSerivce.initPictureContext(good.getPicture()));
+		}
 		List<Classfy> classfies = classfyService.getClassfiesByParent(classfy.getSupermarket(), classfy);
 		for (Classfy c : classfies) {
 			goods.addAll(goodService.getAllGoodsByClassfy(c));
@@ -97,10 +114,9 @@ public class UserInterface {
 
 	@RequestMapping("submitOrder")
 	@ResponseBody
-	public void submitOrder(Order order, String goodsId, String counts) {
+	public String submitOrder(Order order, String goodsId, String counts) {
 		String[] goodsIdArray = goodsId.split(",");
 		String[] countsArray = counts.split(",");
-		LOGGER.info("address {}", order.getUser().getAddress());
 		List<OrderItem> orderItems = new ArrayList<OrderItem>();
 		for (int i = 0; i < goodsIdArray.length; i++) {
 			OrderItem orderItem = new OrderItem();
@@ -113,6 +129,22 @@ public class UserInterface {
 		order.setSupermarket(orderItems.get(0).getGood().getSupermarket());
 		order.setOrderStatus(OrderStatus.SUBMITED);
 		orderService.submitOrder(order, orderItems);
+		return "success";
+	}
+
+	@RequestMapping("confirmOrders")
+	@ResponseBody
+	public String confirmOrders(Order order) {
+		LOGGER.info("confirm order");
+		orderService.receivedOrders(order);
+		return "success";
+	}
+
+	@RequestMapping("rfundOrders")
+	@ResponseBody
+	public String rfundOrders(Order order) {
+		orderService.refundOrders(order);
+		return "success";
 	}
 
 	@RequestMapping("getHotClassfies")
@@ -133,4 +165,46 @@ public class UserInterface {
 		return orderService.getOrderSummaryByUserAndOrderStatus(user, orderStatus);
 	}
 
+	@RequestMapping("register")
+	@ResponseBody
+	public User register(User user) {
+		List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+		if (errorMessages.isEmpty()) {
+			userService.registerUser(user, errorMessages);
+		} else {
+			throw new RuntimeException(errorMessages.get(0).getKey());
+		}
+		return user;
+	}
+
+	@RequestMapping("login")
+	@ResponseBody
+	public User login(User user) {
+		List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+		user = userService.getUserByUsernameAndPassword(user, errorMessages);
+		if (!errorMessages.isEmpty()) {
+			throw new RuntimeException(errorMessages.get(0).getKey());
+		}
+		return user;
+	}
+
+	@RequestMapping("getReceiveAddresses")
+	@ResponseBody
+	public List<ReceiveAddress> getReceiveAddresses(User user) {
+		return receiveAddressService.getReceiveAddressesByUser(user);
+	}
+
+	@RequestMapping("addReceiveClass")
+	@ResponseBody
+	public String addReceiveClass(ReceiveAddress receiveAddress) {
+		userService.addReceiveAddress(receiveAddress);
+		return "success";
+	}
+
+	@RequestMapping("setDefaultReceiveAddress")
+	@ResponseBody
+	public String setDefaultReceiveAddress(Integer userId, Integer receiveAddressId) {
+		userService.setDefaultReceiveAddress(userId, receiveAddressId);
+		return "success";
+	}
 }

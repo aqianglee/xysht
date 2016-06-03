@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <div>
     	<div class="title">
-			校园生活通后商家店铺管理系统
+			校园生活通系统运维商后台管理
     	</div>
     	<div id="shopKeeperInfo_messages" class="shopKeeperInfo_messages">
 			<div class="shopKeeperInfo">

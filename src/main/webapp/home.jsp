@@ -26,5 +26,6 @@
 	<a href="${pageContext.request.contextPath }/nonLogin/shopKeeper_toLoginPage">登陆</a>
 	<a href="${pageContext.request.contextPath }/nonLogin/manager_toLoginPage">管理员登陆</a>
 	<a id="prepareData" href="${pageContext.request.contextPath }/nonLogin/manualTest_prepareData">准备数据</a>
+	<a href="${pageContext.request.contextPath }/nonLogin/download_android">下载</a>
 </body>
 </html>

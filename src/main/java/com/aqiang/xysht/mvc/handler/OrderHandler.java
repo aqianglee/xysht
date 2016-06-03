@@ -58,7 +58,7 @@ public class OrderHandler {
 	@ResponseBody
 	public String confirmOrder(Integer orderId, Map<String, Object> map) {
 		Order order = orderService.findEntity(orderId);
-		orderService.comfirmOrder(order);
+		orderService.checkOrder(order);
 		return "success";
 	}
 

@@ -18,6 +18,7 @@ import com.aqiang.xysht.entities.HotClassfyName;
 import com.aqiang.xysht.entities.Supermarket;
 import com.aqiang.xysht.service.ClassfyService;
 import com.aqiang.xysht.service.GoodService;
+import com.aqiang.xysht.service.SupermarketService;
 import com.aqiang.xysht.service.ValidateService;
 
 @Service
@@ -27,6 +28,8 @@ public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements Clas
 	private ValidateService validateService;
 	@Autowired
 	private GoodService goodService;
+	@Autowired
+	private SupermarketService supermarketService;
 
 	@Resource(name = "classfyDao")
 	@Override
@@ -60,6 +63,7 @@ public class ClassfyServiceImpl extends BaseServiceImpl<Classfy> implements Clas
 			classfy.setParent(null);
 		}
 		classfy.setLevel(getClassfyLevel(classfy.getParent()));
+		classfy.setSupermarket(supermarketService.findEntity(classfy.getSupermarket().getId()));
 		return margeEntity(classfy);
 	}
 

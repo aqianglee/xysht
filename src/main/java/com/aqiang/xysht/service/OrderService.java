@@ -11,15 +11,19 @@ import com.aqiang.xysht.entities.User;
 
 public interface OrderService extends BaseService<Order> {
 
-	public void submitOrder(Order order, List<OrderItem> orderItems);
-
 	public List<Order> getOrdersByShopKeeperAndOrderStatus(ShopKeeper shopKeeper, String orderStatus);
 
 	public List<Order> getOrdersBySupermarketAndOrderStatus(Supermarket supermarket, String orderStatus);
 
-	public void comfirmOrder(Order order);
+	public void submitOrder(Order order, List<OrderItem> orderItems);
+
+	public void checkOrder(Order order);
 
 	public void forwordOrders(Order order);
+
+	public void receivedOrders(Order order);
+
+	public void refundOrders(Order order);
 
 	public List<OrderSummary> getOrderSummaryByUserAndOrderStatus(User user, String orderStatus);
 

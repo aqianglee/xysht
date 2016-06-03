@@ -58,18 +58,18 @@
 							<th>联系电话</th>
 							<th>送货地址</th>
 							<th>商家</th>
-							<th>日期</th>
+							<th>提交日期</th>
 							<th>价格</th>
 							<th>状态</th>
 							<th>操作</th>
 						</tr>
 						<c:forEach items="${requestScope.orders }" var="c">
 							<tr>
-								<td>${c.user.compellation }</td>
-								<td>${c.user.phone }</td>
-								<td>${c.user.address }</td>
+								<td>${c.receiveAddress.compellation }</td>
+								<td>${c.receiveAddress.phone }</td>
+								<td>${c.receiveAddress.address }</td>
 								<td>${c.supermarket.name }</td>
-								<td>${c.date }</td>
+								<td>${c.submitedTime }</td>
 								<td>${c.price }</td>
 								<td>${c.orderStatus }</td>
 								

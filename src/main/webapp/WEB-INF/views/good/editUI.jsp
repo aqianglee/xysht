@@ -43,6 +43,7 @@ $(function(){
 					<table>
 						<form:hidden path="id"/>
 						<form:hidden path="classfy.id" value="${classfy.id }"/>
+						<form:hidden path="supermarket.id" value="${supermarket.id }"/>
 						<tr>
 							<td align="right"><label>商品名称：</label></td>
 							<td>

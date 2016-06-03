@@ -12,7 +12,6 @@
 		$("#navs").append("<li><a id='levelOne' href='listAllClassfies?sid=${sid }'>分类管理</a></li>");
 		if(${parent != null}) {
 			if(${parent.level == "levelTwo"}) {
-				$(".editChildClassfy").hide();
 				$("#navs").append("<li><a id='levelTwo' href='listAllClassfies?sid=${parent.supermarket.id }&parentId=${parent.parent.id}'>${parent.parent.name}</a></li>");
 				$("#navs").append("<li><a id='levelThree' href='listAllClassfies?sid=${parent.supermarket.id }&parentId=${parent.id}'>${parent.name}</a></li>");
 			} else {
@@ -68,8 +67,18 @@
 								<td>${c.name }</td>
 								<td><fmt:message key="${c.level }"/></td>
 								<td>${c.number }</td>
-								<td><a href="${pageContext.request.contextPath }/shopKeeper/getGoodsByClassfy?classfyId=${c.id}">管理商品</a></td>
-								<td><a class="editChildClassfy" href="${pageContext.request.contextPath }/shopKeeper/listAllClassfies?sid=${c.supermarket.id }&parentId=${c.id}">编辑子分类</a></td>
+								<td>
+									<c:if test="${c.level != 'levelOne' }">
+										<a href="${pageContext.request.contextPath }/shopKeeper/getGoodsByClassfy?classfyId=${c.id}">管理商品</a>
+									</c:if>
+									<c:if test="${c.level == 'levelOne' }">二级分类可添加商品</c:if>
+								</td>
+								<td>
+									<c:if test="${c.level != 'levelThree' }">
+										<a class="editChildClassfy" href="${pageContext.request.contextPath }/shopKeeper/listAllClassfies?sid=${c.supermarket.id }&parentId=${c.id}">编辑子分类</a>
+									</c:if>
+									<c:if test="${c.level == 'levelThree' }">不可再添加子分类</c:if>
+								</td>
 								<td><a href="${pageContext.request.contextPath }/shopKeeper/editClassfy?id=${c.id }&supermarketId=${c.supermarket.id }&parentId=${parent.id}">修改</a></td>
 								<td><a class="delete" href="${pageContext.request.contextPath }/shopKeeper/deleteClassfy?id=${c.id }&sid=${c.supermarket.id }">删除</a></td>
 							</tr>

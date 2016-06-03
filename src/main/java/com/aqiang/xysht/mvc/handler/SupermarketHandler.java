@@ -67,32 +67,26 @@ public class SupermarketHandler {
 	}
 
 	@RequestMapping("saveSuperMarket")
-	public String save(Map<String, Object> map, Supermarket supermarket, HttpSession session, Integer[] hotClassfiesId,
+	public String save(Map<String, Object> map, Supermarket supermarket, HttpSession session, String[] hotClass,
 			HttpServletRequest request, @RequestParam(value = "p", required = false) MultipartFile p,
-			@RequestParam(value = "p", required = false) MultipartFile activityPicture) {
+			@RequestParam(value = "activityPicture", required = false) MultipartFile activityPicture) {
 		messages = new ArrayList<ErrorMessage>();
-		for (Integer integer : hotClassfiesId) {
-			System.out.println(integer);
+		try {
+			shopKeeper = getLoginShopKeeper(session);
+			supermarket.setShopKeeper(shopKeeper);
+			supermarketService.saveOrUpdateEntity(supermarket, p, hotClass, activityPicture);
+			return "redirect:/shopKeeper/listAllSuperMarkets";
+		} catch (NotLoginException e) {
+			return "redirect:/nonLogin/shopKeeper_toLoginPage";
+		} catch (RuntimeException e) {
+			messages.add(new ErrorMessage(e.getMessage()));
+			e.printStackTrace();
+			map.put("errorMessages", messages);
+			List<Classfy> hotClassfies = classfyService.getHotClassfies();
+			LOGGER.info("get {} hot ciassf", hotClassfies.size());
+			map.put("hotClassfies", hotClassfies);
+			return "superMarket/editUI";
 		}
-		System.out.println(supermarket);
-		System.out.println();
-		// try {
-		// shopKeeper = getLoginShopKeeper(session);
-		// supermarket.setShopKeeper(shopKeeper);
-		// supermarketService.saveOrUpdateEntity(supermarket, p);
-		// return "redirect:/shopKeeper/listAllSuperMarkets";
-		// } catch (NotLoginException e) {
-		// return "redirect:/nonLogin/shopKeeper_toLoginPage";
-		// } catch (RuntimeException e) {
-		// messages.add(new ErrorMessage(e.getMessage()));
-		// e.printStackTrace();
-		// map.put("errorMessages", messages);
-		// List<Classfy> hotClassfies = classfyService.getHotClassfies();
-		// LOGGER.info("get {} hot ciassf", hotClassfies.size());
-		// map.put("hotClassfies", hotClassfies);
-		// return "superMarket/editUI";
-		// }
-		return null;
 	}
 
 	private ShopKeeper getLoginShopKeeper(HttpSession session) {

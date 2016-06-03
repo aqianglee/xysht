@@ -69,7 +69,7 @@
 							<div class="orderDetailsTitle">订单信息</div>
 							<div class="orderDetailsItem">订单号： ${order.number }</div>
 							<div class="orderDetailsItem">商铺：${order.supermarket.name }</div>
-							<div class="orderDetailsItem">下单时间：${order.date }</div>
+							<div class="orderDetailsItem">下单时间：${order.submitedTime }</div>
 							<div class="orderDetailsItem">订单状态：${order.orderStatus }</div>
 						</div>
 						<div class="orderDetails">
@@ -93,9 +93,9 @@
 						</div>
 						<div class="orderDetails">
 							<div class="orderDetailsTitle">配送信息</div>
-							<div class="orderDetailsItem">收货人姓名：${order.user.compellation }</div>
-							<div class="orderDetailsItem">收货人电话：${order.user.phone }</div>
-							<div class="orderDetailsItem">收货地址：${order.user.address }</div>
+							<div class="orderDetailsItem">收货人姓名：${order.receiveAddress.compellation }</div>
+							<div class="orderDetailsItem">收货人电话：${order.receiveAddress.phone }</div>
+							<div class="orderDetailsItem">收货地址：${order.receiveAddress.address }</div>
 						</div>
 						<div style="padding: 10px" align="center">
 							<a id="confirmOrder"

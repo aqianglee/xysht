@@ -6,7 +6,6 @@ import com.aqiang.xysht.dao.ParameterDao;
 import com.aqiang.xysht.entities.Parameter;
 
 @Repository("parameterDao")
-public class ParameterDaoImpl extends BaseDaoImpl<Parameter> implements
-		ParameterDao {
+public class ParameterDaoImpl extends BaseDaoImpl<Parameter> implements ParameterDao {
 
 }

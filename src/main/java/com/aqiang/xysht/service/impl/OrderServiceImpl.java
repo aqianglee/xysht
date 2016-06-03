@@ -1,6 +1,7 @@
 package com.aqiang.xysht.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import com.aqiang.xysht.entities.Supermarket;
 import com.aqiang.xysht.entities.User;
 import com.aqiang.xysht.service.OrderItemService;
 import com.aqiang.xysht.service.OrderService;
+import com.aqiang.xysht.service.ReceiveAddressService;
 import com.aqiang.xysht.service.SupermarketService;
 import com.aqiang.xysht.service.UserService;
 
@@ -35,6 +37,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 	private UserService userService;
 	@Autowired
 	private SupermarketService supermarketService;
+	@Autowired
+	ReceiveAddressService receiveAddressService;
 
 	@Resource(name = "orderDao")
 	@Override
@@ -44,17 +48,11 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 
 	@Override
 	public void submitOrder(Order order, List<OrderItem> orderItems) {
-		order.setUser(userService.updateUser(order.getUser()));
 		order.initPrice(orderItems);
-		LOGGER.info("order price: {}", order.getPrice());
-		LOGGER.info("order status: {}", order.getOrderStatus());
-		LOGGER.info("order supermarket name: {}", order.getSupermarket().getName());
-		LOGGER.info("order supermarket id: {}", order.getSupermarket().getId());
+		order.setUser(userService.findEntity(order.getUser().getId()));
+		order.setReceiveAddress(receiveAddressService.findEntity(order.getReceiveAddress().getId()));
 		saveEntitiy(order);
 		for (OrderItem orderItem : orderItems) {
-			LOGGER.info("orderItem price: {}", orderItem.getGood().getPrice());
-			LOGGER.info("orderItem name: {}", orderItem.getGood().getName());
-			LOGGER.info("orderItem count: {}", orderItem.getCount());
 			orderItemService.saveEntitiy(orderItem);
 		}
 
@@ -63,12 +61,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 	// TODO add test for this method
 	@Override
 	public List<Order> getOrdersByShopKeeperAndOrderStatus(ShopKeeper shopKeeper, String orderStatus) {
-		LOGGER.info("query status :{}", orderStatus);
 		List<Supermarket> supermarkets = supermarketService.getSupermarketsByShopKeeper(shopKeeper);
-		LOGGER.info("get {} supermarket", supermarkets.size());
 		List<Order> orders = new ArrayList<Order>();
 		for (Supermarket supermarket : supermarkets) {
-			LOGGER.info("supermarket id is {}, and supermarket name is :{}", supermarket.getId(), supermarket.getName());
 			orders.addAll(getOrdersBySupermarketAndOrderStatus(supermarket, orderStatus));
 		}
 		return orders;
@@ -77,28 +72,28 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 	@Override
 	public List<Order> getOrdersBySupermarketAndOrderStatus(Supermarket supermarket, String orderStatus) {
 		if (orderStatus != null && !orderStatus.equals("") && !OrderStatus.ALL.equals(orderStatus)) {
-			LOGGER.info("use has orderStatus query");
 			return findEntityByJpql("From Order o where o.supermarket = ? and orderStatus = ?", supermarket,
 					orderStatus);
 		} else {
-			LOGGER.info("use no orderStatus query");
 			return findEntityByJpql("From Order o where o.supermarket = ?", supermarket);
 		}
 	}
 
 	@Override
-	public void comfirmOrder(Order order) {
+	public void checkOrder(Order order) {
 		order.setOrderStatus(OrderStatus.CHECKED);
+		order.setCheckedTime(new Date());
 	}
 
 	@Override
 	public void forwordOrders(Order order) {
 		order.setOrderStatus(OrderStatus.FORWORD);
+		order.setForwordTime(new Date());
 	}
 
 	@Override
 	public List<OrderSummary> getOrderSummaryByUserAndOrderStatus(User user, String orderStatus) {
-		user = userService.getUserByPhone(user.getPhone());
+		user = userService.findEntity(user.getId());
 		List<OrderSummary> summaries = new ArrayList<OrderSummary>();
 		List<Order> orders = getOrdersByUserAndOrderStatus(user, orderStatus);
 		for (Order order : orders) {
@@ -112,11 +107,24 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 
 	private List<Order> getOrdersByUserAndOrderStatus(User user, String orderStatus) {
 		if (orderStatus != null && !orderStatus.equals("") && !OrderStatus.ALL.equals(orderStatus)) {
-			LOGGER.info("use has orderStatus query");
 			return findEntityByJpql("From Order o where o.user = ? and orderStatus = ?", user, orderStatus);
 		} else {
-			LOGGER.info("use no orderStatus query");
 			return findEntityByJpql("From Order o where o.user = ?", user);
 		}
 	}
+
+	@Override
+	public void receivedOrders(Order order) {
+		order = findEntity(order.getId());
+		order.setOrderStatus(OrderStatus.RECEIVED);
+		order.setReceivedTime(new Date());
+	}
+
+	@Override
+	public void refundOrders(Order order) {
+		order = findEntity(order.getId());
+		order.setOrderStatus(OrderStatus.REFUND);
+		order.setRefundTime(new Date());
+	}
+
 }

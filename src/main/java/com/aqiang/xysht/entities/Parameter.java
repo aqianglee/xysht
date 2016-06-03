@@ -1,5 +1,6 @@
 package com.aqiang.xysht.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,7 +12,9 @@ public class Parameter {
 	@Id
 	@GeneratedValue
 	private Integer id;
+	@Column(name = "parameter_key")
 	private String key;
+	@Column(name = "parameter_value")
 	private String value;
 
 	public Integer getId() {

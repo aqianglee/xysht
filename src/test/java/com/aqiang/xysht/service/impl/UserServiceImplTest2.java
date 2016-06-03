@@ -24,9 +24,6 @@ public class UserServiceImplTest2 extends BaseTest {
 
 	private User createUser(String address, String phone, String compellation) {
 		User user = new User();
-		user.setAddress(address);
-		user.setPhone(phone);
-		user.setCompellation(phone);
 		return user;
 	}
 }

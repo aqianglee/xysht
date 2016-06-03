@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +23,7 @@ import com.aqiang.xysht.service.SupermarketService;
 @Controller
 @RequestMapping("shopKeeper")
 public class ClassfyHandler {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ClassfyHandler.class);
 
 	private List<ErrorMessage> errorMessages;
 	@Autowired
@@ -61,6 +64,7 @@ public class ClassfyHandler {
 		errorMessages = new ArrayList<ErrorMessage>();
 		classfyService.validateClassfy(classfy, errorMessages);
 		if (errorMessages.size() == 0) {
+			LOGGER.info("classfy id is {}", classfy.getParent().getId());
 			classfyService.updateClassfy(classfy);
 			return String.format("redirect:/shopKeeper/listAllClassfies?sid=%s&parentId=%s", classfy.getSupermarket()
 					.getId() == null ? "" : classfy.getSupermarket().getId(), classfy.getParent() == null
